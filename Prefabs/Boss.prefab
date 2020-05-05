@@ -892,6 +892,7 @@ MonoBehaviour:
     type: 3}
   mass: 1
   health: 100
+  inputScale: 14
   shieldCooldown: 15
   cooldownSprites:
   - {fileID: 8997682072799132263}

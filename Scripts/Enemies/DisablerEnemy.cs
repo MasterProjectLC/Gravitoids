@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DisablerEnemy : EnemyShip
+public class DisablerEnemy : KnightEnemy
 {
     float cooldown = 2f;
     float clock = 0f;
-    float targetScale = 3f;
 
     [SerializeField]
     SpriteRenderer cooldownSprite;
@@ -25,7 +24,7 @@ public class DisablerEnemy : EnemyShip
     {
         if (!GetPlayerShip()) { return; }
 
-        PortalAnimation();
+        EmergeAnimation();
 
         SetGravityVariable(5);
 
@@ -36,14 +35,6 @@ public class DisablerEnemy : EnemyShip
         MorraNegoNey();
 
         Gravitos();
-    }
-
-    private void PortalAnimation()
-    {
-        if (transform.localScale.x < targetScale)
-            transform.localScale += new Vector3(5*Time.deltaTime, 5 * Time.deltaTime, 5 * Time.deltaTime);
-        else
-            transform.localScale = new Vector3(targetScale, targetScale, targetScale);
     }
 
     private void CooldownClock()

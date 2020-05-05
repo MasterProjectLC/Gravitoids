@@ -6,6 +6,15 @@ public abstract class EnemyShip : Ship
 {
     private PlayerShip playerShip;
 
+    [SerializeField]
+    private int inputScale;
+
+    new protected void Start()
+    {
+        SetScale(inputScale);
+        base.Start();
+    }
+
     // Update is called once per frame
     new private void Update()
     {

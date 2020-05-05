@@ -389,6 +389,7 @@ MonoBehaviour:
     type: 3}
   mass: 1
   health: 15
+  targetScale: 3
   cooldownSprite: {fileID: 8902727619605819093}
   laserObjects:
   - {fileID: 8598553442480436320}

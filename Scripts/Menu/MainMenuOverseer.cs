@@ -1,13 +1,18 @@
-﻿using UnityEngine.SceneManagement;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
-public class MenuOverseer : MonoBehaviour
+public class MainMenuOverseer : MenuOverseer
 {
     [SerializeField]
     private GameObject title;
 
     [SerializeField]
     private OptionOverseer options;
+
+    [SerializeField]
+    private ShipSelectOverseer shipSelect;
 
     [SerializeField]
     private Space space;
@@ -18,7 +23,7 @@ public class MenuOverseer : MonoBehaviour
         AudioManager.AM.StopAll();
         AudioManager.AM.Play("MainMenuTheme");
         space.SetBackgrounding(true);
-        space.StartGame();
+        space.StartGame(0);
 
         if (Messenger.MS.resetting)
         {
@@ -46,41 +51,28 @@ public class MenuOverseer : MonoBehaviour
         }
     }
 
-    public void Selected(int type)
+    override public void Selected(int type)
     {
-        switch(type)
+        switch (type)
         {
             case 0:
-                AudioManager.AM.Stop("MainMenuTheme");
-                title.SetActive(false);
-                space.gameObject.SetActive(true);
-                space.SetBackgrounding(false);
-                space.StartGame();
+                OpenMenu(shipSelect, true);
                 break;
 
             case 1:
-                options.gameObject.SetActive(true);
-                title.gameObject.SetActive(false);
+                OpenMenu(options, true);
                 break;
 
             case 3:
                 Application.Quit();
                 break;
-
-            case 4:
-                title.gameObject.SetActive(true);
-                options.gameObject.SetActive(false);
-                break;
         }
     }
 
-    public void ButtonHover(MenuButton button)
+    public void OpenMenu(MenuOverseer otherMenu, bool activate)
     {
-        button.ChangeScale(1.1f);
-    }
-
-    public void ButtonStopHover(MenuButton button)
-    {
-        button.ChangeScale(1f);
+        otherMenu.gameObject.SetActive(activate);
+        title.gameObject.SetActive(!activate);
     }
 }
+

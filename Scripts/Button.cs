@@ -10,6 +10,7 @@ public abstract class Button : MonoBehaviour, IPointerExitHandler, IPointerEnter
     float blue = 0f;
 
     int originalSize;
+    Vector2 originalSizeV;
 
     // Start is called before the first frame update
     public void Start()
@@ -19,7 +20,10 @@ public abstract class Button : MonoBehaviour, IPointerExitHandler, IPointerEnter
             isMobile = true;
         }
 
-        originalSize = GetComponent<Text>().fontSize;
+        if (GetComponent<Text>())
+            originalSize = GetComponent<Text>().fontSize;
+        else if (GetComponent<Image>())
+            originalSizeV = GetComponent<Image>().rectTransform.sizeDelta;
     }
 
     // Update is called once per frame
@@ -76,7 +80,19 @@ public abstract class Button : MonoBehaviour, IPointerExitHandler, IPointerEnter
 
     public void ChangeScale(float scale)
     {
-        GetComponent<Text>().fontSize = (int)(originalSize*scale);
+        if (GetComponent<Text>())
+            GetComponent<Text>().fontSize = (int)(originalSize * scale);
+        else if (GetComponent<Image>())
+        {
+            Image image = GetComponent<Image>();
+            Vector2 oldSize = image.rectTransform.sizeDelta;
+            Vector2 updatedSize = originalSizeV * scale;
+
+            float deltaX = (oldSize.x/2 - updatedSize.x/2)/2;
+            float deltaY = (oldSize.y/2 - updatedSize.y/2)/2;
+            image.rectTransform.sizeDelta = updatedSize;
+            image.rectTransform.localPosition += new Vector3(deltaX, deltaY, 0);
+        }
     }
 
     public void ChangeChildTone(int indexx, float color)

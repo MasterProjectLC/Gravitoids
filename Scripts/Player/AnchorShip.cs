@@ -25,6 +25,19 @@ public class AnchorShip : PlayerShip
     {
         Updater();
 
+        if (shield > 0f)
+        {
+            Color color = shieldSprite.GetComponent<SpriteRenderer>().color;
+            color = new Color(color.r, color.g, color.b, shield);
+            shieldSprite.GetComponent<SpriteRenderer>().color = color;
+            shield -= Time.deltaTime * 2f;
+
+        }
+        else
+        {
+            shieldSprite.SetActive(false);
+        }
+
         TurretRotation();
     }
 
@@ -66,7 +79,7 @@ public class AnchorShip : PlayerShip
 
     private void PlayerShield()
     {
-        // SHIFT - Spatial Anchor
+        // SHIFT - Shield
         if (energyLevel > 0)
         {
             AudioManager.AM.Play("Shield");
@@ -74,24 +87,11 @@ public class AnchorShip : PlayerShip
             shieldSprite.SetActive(true);
             UseEnergyCell(-1);
         }
-
-        if (shield > 0f)
-        {
-            Color color = shieldSprite.GetComponent<SpriteRenderer>().color;
-            color = new Color(color.r, color.g, color.b, shield);
-            shieldSprite.GetComponent<SpriteRenderer>().color = color;
-            shield -= Time.deltaTime * 2f;
-
-        }
-        else
-        {
-            shieldSprite.SetActive(false);
-        }
     }
 
     private void SpatialAnchor()
     {
-        // SHIFT - Spatial Anchor
+        // CTRL - Spatial Anchor
         if (energyLevel > 0)
         {
             AudioManager.AM.Play("SpatialAnchor");

@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OptionOverseer : MonoBehaviour
+public class OptionOverseer : MenuOverseer
 {
     [SerializeField]
-    private MenuOverseer menu;
+    private MainMenuOverseer menu;
 
     [SerializeField]
     private SliderOption[] sliders;
@@ -51,4 +51,11 @@ public class OptionOverseer : MonoBehaviour
         }
     }
 
+    override public void Selected(int type)
+    {
+        if (type == 100)
+        {
+            menu.OpenMenu(this, false);
+        }
+    }
 }

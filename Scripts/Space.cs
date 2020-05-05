@@ -38,18 +38,19 @@ public class Space : MonoBehaviour
     private GameObject[] asteroidPresets;
 
     [SerializeField]
-    private GameObject playerShip;
+    private GameObject[] playerShip;
     private GameObject playerShipInstance;
     private GameObject bossShipInstance;
 
     [SerializeField]
-    private GameObject speederShip;
+    private GameObject[] pawnShips;
+    [SerializeField]
+    private GameObject[] knightShips;
+    [SerializeField]
+    private GameObject[] bossShips;
 
     [SerializeField]
-    private GameObject disablerShip;
-
-    [SerializeField]
-    private GameObject bossShip;
+    private int faction = 0;
 
     [SerializeField]
     private Transform[] spawnLocations;
@@ -59,12 +60,19 @@ public class Space : MonoBehaviour
     bool gameEnd = false;
     bool backgrounding = true;
 
+    public enum enemyShipTypes
+    {
+        Pawn,
+        Knight,
+        Boss
+    }
 
-    public void StartGame()
+
+    public void StartGame(int playerShipType)
     {
         if (!backgrounding)
         {
-            SpawnPlayerShip();
+            SpawnPlayerShip(playerShipType);
             AudioManager.AM.Play("GameTheme");
         } else
         {
@@ -111,10 +119,10 @@ public class Space : MonoBehaviour
             for (int i = 0; i < asteroidWaveCount; i++)
                 SpawnAsteroid(Random.Range(2, 8), spawnLocations[Random.Range(0, spawnLocations.Length)].position, true);
 
-            // Speeder Spawn
-            SpawnSpeeder(spawnLocations[Random.Range(0, spawnLocations.Length)].position);
+            // Pawn Spawn
+            SpawnEnemy(spawnLocations[Random.Range(0, spawnLocations.Length)].position, enemyShipTypes.Pawn);
 
-            // Disabler Spawn
+            // Knight Spawn
             if (wave % 4 == 0 && wave != 0 && playerShipInstance)
             {
                 Vector3 spawnPosition;
@@ -123,7 +131,7 @@ public class Space : MonoBehaviour
                 } while ((playerShipInstance.transform.position - spawnPosition).magnitude < 15f ||
                 (bossShipInstance && (bossShipInstance.transform.position - spawnPosition).magnitude < 32f));
 
-                SpawnDisabler(spawnPosition);
+                SpawnEnemy(spawnPosition, enemyShipTypes.Knight);
             }
 
             // Boss Spawn
@@ -131,7 +139,8 @@ public class Space : MonoBehaviour
             {
                 AudioManager.AM.Stop("GameTheme");
                 AudioManager.AM.Play("BossTheme");
-                SpawnBoss(new Vector2(-70, -1));
+
+                SpawnEnemy(new Vector2(-1, -70), enemyShipTypes.Boss);
                 Debug.Log("spawn boss");
             }
 
@@ -177,57 +186,42 @@ public class Space : MonoBehaviour
         newObject.GetComponent<Asteroid>().SetObjectList(objectList);
     }
 
-    public void SpawnSpeeder(Vector2 spawnLocation)
+    public GameObject SpawnEnemy(Vector2 spawnLocation, enemyShipTypes type)
     {
-        GameObject newObject = Instantiate(speederShip, spawnLocation, Quaternion.identity, this.transform);
-        newObject.GetComponent<SpeederEnemy>().SetSpace(this);
-        newObject.GetComponent<SpeederEnemy>().SetMass(1);
+        GameObject newObject;
+        switch (type)
+        {
+            default:
+                newObject = Instantiate(pawnShips[faction], spawnLocation, Quaternion.identity, this.transform);
+                break;
+
+            case enemyShipTypes.Knight:
+                newObject = Instantiate(knightShips[faction], spawnLocation, Quaternion.identity, this.transform);
+                break;
+
+            case enemyShipTypes.Boss:
+                newObject = Instantiate(bossShips[faction], spawnLocation, Quaternion.identity, this.transform);
+                bossShipInstance = newObject;
+                break;
+        }
+
+        newObject.GetComponent<EnemyShip>().SetSpace(this);
 
         if (playerShipInstance)
-            newObject.GetComponent<SpeederEnemy>().SetPlayerShip(playerShipInstance.GetComponent<PlayerShip>());
-
-        //newObject.GetComponent<SpeederEnemy>().SetBodyVelocity(-spawnLocation * 0.1f);
+            newObject.GetComponent<EnemyShip>().SetPlayerShip(playerShipInstance.GetComponent<PlayerShip>());
 
         objectList.Add(newObject);
-        newObject.GetComponent<SpeederEnemy>().SetObjectList(objectList);
+        newObject.GetComponent<EnemyShip>().SetObjectList(objectList);
+
+        return newObject;
     }
 
-    public void SpawnDisabler(Vector2 spawnLocation)
-    {
-        GameObject newObject = Instantiate(disablerShip, spawnLocation, Quaternion.identity, this.transform);
-        newObject.GetComponent<DisablerEnemy>().SetSpace(this);
-        newObject.GetComponent<DisablerEnemy>().SetScale(6);
-        newObject.GetComponent<DisablerEnemy>().SetMass(1);
-
-        if (playerShipInstance)
-            newObject.GetComponent<DisablerEnemy>().SetPlayerShip(playerShipInstance.GetComponent<PlayerShip>());
-
-        objectList.Add(newObject);
-        newObject.GetComponent<DisablerEnemy>().SetObjectList(objectList);
-    }
-
-    public void SpawnBoss(Vector2 spawnLocation)
-    {
-        GameObject newObject = Instantiate(bossShip, spawnLocation, Quaternion.identity, this.transform);
-        newObject.GetComponent<BossEnemy>().SetSpace(this);
-        newObject.GetComponent<BossEnemy>().SetScale(10);
-        newObject.GetComponent<BossEnemy>().SetMass(4);
-        bossShipInstance = newObject;
-
-        if (playerShipInstance)
-            newObject.GetComponent<BossEnemy>().SetPlayerShip(playerShipInstance.GetComponent<PlayerShip>());
-
-        newObject.GetComponent<BossEnemy>().SetBodyVelocity(new Vector2(1f, 0f));
-        objectList.Add(newObject);
-        newObject.GetComponent<BossEnemy>().SetObjectList(objectList);
-    }
-
-    public void SpawnPlayerShip()
+    public void SpawnPlayerShip(int playerShipType)
     {
         // Spawn space objects
         Vector2 spawnPosition = new Vector2(0f, 0f);
 
-        GameObject newObject = Instantiate(playerShip, spawnPosition, Quaternion.identity, this.transform);
+        GameObject newObject = Instantiate(playerShip[playerShipType], spawnPosition, Quaternion.identity, this.transform);
         newObject.GetComponent<PlayerShip>().SetSpace(this);
         playerShipInstance = newObject;
 
@@ -279,6 +273,11 @@ public class Space : MonoBehaviour
     public void SetBackgrounding(bool back)
     {
         backgrounding = back;
+    }
+
+    public void AddToList(GameObject newObj)
+    {
+        objectList.Add(newObj);
     }
 
 }

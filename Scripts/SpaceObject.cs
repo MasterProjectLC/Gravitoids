@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public abstract class SpaceObject : MonoBehaviour
 {
     private Space space;
-    private List<GameObject> objectList = new List<GameObject>();
+    protected List<GameObject> objectList = new List<GameObject>();
 
     [SerializeField]
     private GameObject explosion;
@@ -166,7 +166,7 @@ public abstract class SpaceObject : MonoBehaviour
 
     protected virtual void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("Sanity " + collision.gameObject.tag);
+        //Debug.Log("Sanity " + collision.gameObject.tag);
         CollisionCheck(collision.gameObject, bodyVelocity);
     }
 }

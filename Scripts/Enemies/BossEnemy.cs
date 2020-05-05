@@ -26,6 +26,7 @@ public class BossEnemy : EnemyShip
     new private void Start()
     {
         shield.SetSpace(GetSpace());
+        SetBodyVelocity(new Vector2(1f, 0f));
 
         for (int i = 0; i < weakPoints.Length; i++)
         {

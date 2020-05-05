@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class SpeederEnemy : EnemyShip
 {
+
+
     // Update is called once per frame
     new private void Update()
     {
