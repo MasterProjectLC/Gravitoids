@@ -78,12 +78,12 @@ public abstract class SpaceObject : MonoBehaviour
 
             // Push + Damage ourselves
             if (otherDamage > 0 && !knockbackImmune)
-            {
                 IncreaseBodyVelocity(otherVelocity * otherDamage / 5);
-            }
+
             DealDamage((int)otherDamage);
             return true;
         }
+
         return false;
     }
 

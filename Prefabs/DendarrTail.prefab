@@ -179,9 +179,10 @@ MonoBehaviour:
   mass: 1
   health: 3
   inputScale: 10
-  tailSize: 0
+  bossThemeName: Dendarr
   nextPrefab: {fileID: 6632914876877121658, guid: 8c664a0f015b6fb4190014011888be97,
     type: 3}
+  greenLight: {fileID: 0}
 --- !u!50 &6837055423080078261
 Rigidbody2D:
   serializedVersion: 4

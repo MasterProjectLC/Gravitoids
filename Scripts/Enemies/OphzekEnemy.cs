@@ -13,6 +13,8 @@ public class OphzekEnemy : EnemyShip
 
     SpriteRenderer spriteRenderer;
 
+    string[] soundList = { "OphzekReproduce1", "OphzekReproduce2" };
+
     new private void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -49,6 +51,9 @@ public class OphzekEnemy : EnemyShip
                 Vector3 toPlayer = (GetPlayerShip().transform.position - transform.position).normalized * 5f;
                 GameObject newObject = GetSpace().SpawnEnemy(transform.position + toPlayer, Space.enemyShipTypes.Pawn);
                 newObject.GetComponent<OphzekEnemy>().SetBodyVelocity(toPlayer);
+
+                if (transform.position.x > -60f && transform.position.x < 60f && transform.position.y > -60f && transform.position.y < 60f)
+                AudioManager.AM.Play(soundList[Random.Range(0, soundList.Length)]);
             }
 
             clock = 0;
@@ -67,5 +72,10 @@ public class OphzekEnemy : EnemyShip
     public override void DealDamage(int damage)
     {
         Explode(1);
+    }
+
+    public void ActivateEye()
+    {
+        transform.GetChild(0).gameObject.SetActive(true);
     }
 }

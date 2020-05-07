@@ -84,19 +84,22 @@ public class ScoutShip : PlayerShip
             Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
 
             RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero);
-            if (hit)
-            {
-                Debug.Log("HIT");
-                Collider2D other = hit.collider;
-                Vector3 myPosition = transform.position;
-                Vector3 otherPosition = other.transform.position;
 
-                other.transform.position = new Vector3(200f, 200f, 200f);
-                transform.position = otherPosition;
-                other.transform.position = myPosition;
+            if (!hit) { return; }
 
-                UseEnergyCell(-1);
-            }
+            Debug.Log("HIT");
+            Collider2D other = hit.collider;
+
+            if (other.GetComponent<BossEnemy>()) { return; }
+
+            Vector3 myPosition = transform.position;
+            Vector3 otherPosition = other.transform.position;
+
+            other.transform.position = new Vector3(200f, 200f, 200f);
+            transform.position = otherPosition;
+            other.transform.position = myPosition;
+
+            UseEnergyCell(-1);
 
         }
     }

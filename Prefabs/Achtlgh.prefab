@@ -200,7 +200,8 @@ MonoBehaviour:
   explosion: {fileID: 4196569047492873449, guid: d6cb6d5148e5f9641b9fe5b43fa4607b,
     type: 3}
   mass: 1
-  health: 3
+  health: 8
+  inputScale: 4
   targetScale: 14
   regularSprite: {fileID: 21300000, guid: 497b9514be54b644c8ae08b45066f7d0, type: 3}
   pissedSprite: {fileID: 21300000, guid: cd7d7719db3f2dc47b74af1ce04a2681, type: 3}

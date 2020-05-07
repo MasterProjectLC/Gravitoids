@@ -388,7 +388,8 @@ MonoBehaviour:
   explosion: {fileID: 4196569047492873449, guid: d6cb6d5148e5f9641b9fe5b43fa4607b,
     type: 3}
   mass: 1
-  health: 15
+  health: 10
+  inputScale: 4
   targetScale: 3
   cooldownSprite: {fileID: 8902727619605819093}
   laserObjects:

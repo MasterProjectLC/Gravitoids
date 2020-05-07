@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DendarrEnemy : EnemyShip
+public class DendarrEnemy : BossEnemy
 {
     bool enraged = false;
     float distanceToReappear = 75f;
@@ -29,6 +29,7 @@ public class DendarrEnemy : EnemyShip
 
     new protected void Start()
     {
+
         // Movement Setup
         SetBodyVelocity(new Vector2(0f, -1f) * speed);
         rotation = 270f;
@@ -37,7 +38,10 @@ public class DendarrEnemy : EnemyShip
 
         // Start tail
         if (!tail)
+        {
             SpawnTail(tailSize);
+            AudioManager.AM.Play(bossThemeName);
+        }
 
         knockbackImmune = true;
         base.Start();
@@ -140,15 +144,16 @@ public class DendarrEnemy : EnemyShip
 
         health -= damage;
 
-        if (health < 30)
+        if (health < 40)
         {
             ChangeColor(new Color(0.99f, 0.6f, 0.15f), false);
 
             if (!enraged)
             {
                 enraged = true;
-                speed = 22;
-                distanceToReappear = 60f;
+                speed = 28;
+                distanceToReappear = 58f;
+                AudioManager.AM.Play("DendarrRoar");
             }
         }
         else
@@ -179,9 +184,7 @@ public class DendarrEnemy : EnemyShip
     new protected void OnCollisionEnter2D(Collision2D collision)
     {
         if (!collision.collider.GetComponent<DendarrEnemy>())
-        {
             CollisionCheck(collision.gameObject, GetBodyVelocity());
-        }
     }
 
 }

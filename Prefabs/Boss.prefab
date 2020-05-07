@@ -782,7 +782,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6632914876877121654}
   - component: {fileID: 6632914876877121653}
-  - component: {fileID: 6632914876877121656}
+  - component: {fileID: 1986831743871113851}
   - component: {fileID: 6837055423080078261}
   - component: {fileID: 6632914876877121659}
   m_Layer: 0
@@ -876,7 +876,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &6632914876877121656
+--- !u!114 &1986831743871113851
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -885,7 +885,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6632914876877121658}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 114b94057e530ba4697aac3183449e6f, type: 3}
+  m_Script: {fileID: 11500000, guid: fdff0d5c0bd12d749b30607af86c491d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   explosion: {fileID: 4196569047492873449, guid: d6cb6d5148e5f9641b9fe5b43fa4607b,
@@ -893,6 +893,7 @@ MonoBehaviour:
   mass: 1
   health: 100
   inputScale: 14
+  bossThemeName: OrbTheme
   shieldCooldown: 15
   cooldownSprites:
   - {fileID: 8997682072799132263}

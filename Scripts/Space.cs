@@ -68,11 +68,12 @@ public class Space : MonoBehaviour
     }
 
 
-    public void StartGame(int playerShipType)
+    public void StartGame(int playerShipType, int faction)
     {
         if (!backgrounding)
         {
             SpawnPlayerShip(playerShipType);
+            this.faction = faction;
             AudioManager.AM.Play("GameTheme");
         } else
         {
@@ -138,7 +139,6 @@ public class Space : MonoBehaviour
             if (wave == 16)
             {
                 AudioManager.AM.Stop("GameTheme");
-                AudioManager.AM.Play("BossTheme");
 
                 SpawnEnemy(new Vector2(-1, -70), enemyShipTypes.Boss);
                 Debug.Log("spawn boss");
@@ -233,7 +233,7 @@ public class Space : MonoBehaviour
     {
         gameEnd = true;
         AudioManager.AM.Play("BossDeath");
-        AudioManager.AM.Stop("BossTheme");
+        AudioManager.AM.Stop(bossShipInstance.GetComponent<BossEnemy>().GetBossTheme());
         AudioManager.AM.Play("VictoryTheme");
 
         for (int i = objectList.Count - 1; i >= 0; i--)

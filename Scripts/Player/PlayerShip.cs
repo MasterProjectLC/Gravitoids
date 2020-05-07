@@ -257,7 +257,7 @@ public abstract class PlayerShip : Ship
 
     new private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "PlayerAttack") { return; }
+        if (collision.collider.gameObject.tag == "PlayerAttack") { return; }
 
         CollisionCheck(collision.collider.gameObject, GetBodyVelocity());
     }

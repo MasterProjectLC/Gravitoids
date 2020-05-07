@@ -23,7 +23,7 @@ public class MainMenuOverseer : MenuOverseer
         AudioManager.AM.StopAll();
         AudioManager.AM.Play("MainMenuTheme");
         space.SetBackgrounding(true);
-        space.StartGame(0);
+        space.StartGame(0, 0);
 
         if (Messenger.MS.resetting)
         {

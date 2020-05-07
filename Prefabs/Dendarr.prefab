@@ -179,6 +179,7 @@ MonoBehaviour:
   mass: 1
   health: 140
   inputScale: 10
+  bossThemeName: DendarrTheme
   nextPrefab: {fileID: 6632914876877121658, guid: daf8a0c39135ac54ea7902c96a37b0ea,
     type: 3}
 --- !u!50 &6837055423080078261

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class WeakPoint : SpaceObject
 {
-    BossEnemy boss;
+    OrbEnemy boss;
     bool activated = true;
     int fading = 2;
     float alpha = 1f;
@@ -45,7 +45,7 @@ public class WeakPoint : SpaceObject
         redLight.color = new Color(redLight.color.r, redLight.color.g, redLight.color.b, alpha);
     }
 
-    public void SetBoss(BossEnemy boss)
+    public void SetBoss(OrbEnemy boss)
     {
         this.boss = boss;
     }

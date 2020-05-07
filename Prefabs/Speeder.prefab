@@ -354,3 +354,4 @@ MonoBehaviour:
     type: 3}
   mass: 1
   health: 1
+  inputScale: 1

@@ -20,6 +20,8 @@ public class AchtlghEnemy : KnightEnemy
     [SerializeField]
     GameObject otherLight;
 
+    string[] soundList = { "Achtlgh1", "Achtlgh2", "Achtlgh3" };
+
     new private void Start()
     {
         AudioManager.AM.Play("CrossDeath");
@@ -72,11 +74,14 @@ public class AchtlghEnemy : KnightEnemy
                 {
                     Vector3 toPlayer = (GetPlayerShip().transform.position - ophzekPosition).normalized;
                     objectList[i].GetComponent<OphzekEnemy>().SetBodyVelocity(toPlayer * 8f);
+                    objectList[i].GetComponent<OphzekEnemy>().ActivateEye();
                 }
             }
             pissedClock = 0.1f;
             spriteRenderer.sprite = pissedSprite;
             otherLight.SetActive(true);
+
+            AudioManager.AM.Play(soundList[Random.Range(0, soundList.Length)]);
 
             clock = 0f;
 

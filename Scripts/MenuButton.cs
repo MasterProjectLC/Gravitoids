@@ -25,12 +25,11 @@ public class MenuButton : Button
 
     public override void PointerEnter()
     {
-        menuOverseer.ButtonHover(this);
+        ChangeScale(1.1f);
     }
 
     public override void PointerExit()
     {
-        menuOverseer.ButtonStopHover(this);
+        ChangeScale(1f);
     }
-
 }
