@@ -406,7 +406,7 @@ MonoBehaviour:
   explosion: {fileID: 4196569047492873449, guid: d6cb6d5148e5f9641b9fe5b43fa4607b,
     type: 3}
   mass: 1
-  health: 5
+  health: 4
   speed: 4
   moveFire: {fileID: 2860660160950654332}
   energyCells:

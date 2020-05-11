@@ -9,7 +9,7 @@ public class Laser : SpaceObject
     // Start is called before the first frame update
     void Start()
     {
-        
+        knockbackImpaired = true;
     }
 
     // Update is called once per frame

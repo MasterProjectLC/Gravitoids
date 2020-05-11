@@ -13,7 +13,6 @@ public abstract class SpaceObject : MonoBehaviour
     protected float mass = 1;
 
     protected float scale = 1;
-
     protected float gravityVariable = 1;
 
     private Vector2 movement = new Vector2(0, 0);
@@ -21,6 +20,7 @@ public abstract class SpaceObject : MonoBehaviour
     private Vector2 bodyVelocity = new Vector2(0, 0);
 
     protected bool knockbackImmune = false;
+    protected bool knockbackImpaired = false;
 
     private string[] collisionSounds = { "Collision1", "Collision2" };
 
@@ -73,11 +73,13 @@ public abstract class SpaceObject : MonoBehaviour
             AudioManager.AM.Play(collisionSounds[Random.Range(0, collisionSounds.Length)], volume);
 
             // Push + Damage other object
-            otherSpaceObject.IncreaseBodyVelocity((newBodyVelocity) * GetScale() / 5);
+            if (!knockbackImpaired)
+                otherSpaceObject.IncreaseBodyVelocity((newBodyVelocity) * GetScale() / 5);
+
             otherSpaceObject.DealDamage((int)GetScale());
 
             // Push + Damage ourselves
-            if (otherDamage > 0 && !knockbackImmune)
+            if (otherDamage > 0 && !knockbackImmune && !otherSpaceObject.knockbackImpaired)
                 IncreaseBodyVelocity(otherVelocity * otherDamage / 5);
 
             DealDamage((int)otherDamage);

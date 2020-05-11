@@ -485,7 +485,7 @@ MonoBehaviour:
   explosion: {fileID: 4196569047492873449, guid: d6cb6d5148e5f9641b9fe5b43fa4607b,
     type: 3}
   mass: 1
-  health: 3
+  health: 5
   speed: 2
   moveFire: {fileID: 2860660160950654332}
   energyCells:
@@ -495,7 +495,8 @@ MonoBehaviour:
   - {fileID: 2598192999201401605}
   - {fileID: 5115867681657440481}
   - {fileID: 796236023633083024}
-  acceleration: 2
+  maxEnergy: 6
+  chargeCooldown: 3
   turret: {fileID: 1733708596343970960}
   turretSpawn: {fileID: 7840558146552641841}
   missile: {fileID: 8905979397032509987, guid: ce5aeb5f7d6f761499f7a59d219cfb14, type: 3}
