@@ -55,52 +55,50 @@ public class ScoutShip : PlayerShip
 
     void Laser()
     {
-        if (energyLevel > 0)
-        {
-            laser.SetActive(true);
-            laser.GetComponent<Laser>().SetAlpha(1);
-            UseEnergyCell(-1);
-        }
+        if (energyLevel <= 0)
+            return;
+        
+        laser.SetActive(true);
+        laser.GetComponent<Laser>().SetAlpha(1);
+        UseEnergyCell(-1);
     }
 
     void Dash()
     {
-        if (energyLevel > 0)
-        {
-            SetBodyVelocity(targetDirection.normalized*50f);
-            dash = 0.25f;
-            GetComponent<Collider2D>().enabled = false;
-            Color myColor = GetComponent<SpriteRenderer>().color;
-            GetComponent<SpriteRenderer>().color = new Color(myColor.r, myColor.g, myColor.b, myColor.a/4);
-            UseEnergyCell(-1);
-        }
+        if (energyLevel <= 0)
+            return;
+        SetBodyVelocity(targetDirection.normalized*50f);
+        dash = 0.25f;
+        GetComponent<Collider2D>().enabled = false;
+        Color myColor = GetComponent<SpriteRenderer>().color;
+        GetComponent<SpriteRenderer>().color = new Color(myColor.r, myColor.g, myColor.b, myColor.a/4);
+        UseEnergyCell(-1);
     }
 
     void Swapper()
     {
-        if (energyLevel > 0)
-        {
-            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
+        if (energyLevel <= 0)
+            return;
+        
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
 
-            RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero);
+        RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero);
 
-            if (!hit) { return; }
+        if (!hit) { return; }
 
-            Debug.Log("HIT");
-            Collider2D other = hit.collider;
+        Debug.Log("HIT");
+        Collider2D other = hit.collider;
 
-            if (other.GetComponent<BossEnemy>()) { return; }
+        if (other.GetComponent<BossEnemy>()) { return; }
 
-            Vector3 myPosition = transform.position;
-            Vector3 otherPosition = other.transform.position;
+        Vector3 myPosition = transform.position;
+        Vector3 otherPosition = other.transform.position;
 
-            other.transform.position = new Vector3(200f, 200f, 200f);
-            transform.position = otherPosition;
-            other.transform.position = myPosition;
+        other.transform.position = new Vector3(200f, 200f, 200f);
+        transform.position = otherPosition;
+        other.transform.position = myPosition;
 
-            UseEnergyCell(-1);
-
-        }
+        UseEnergyCell(-1);
     }
 }

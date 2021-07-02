@@ -11,12 +11,12 @@ public class ShipSelectOverseer : MenuOverseer
     private Space space;
 
     [SerializeField]
-    private ImageButton[] shipButtons;
+    private GameObject[] shipButtons;
 
     [SerializeField]
-    private ImageButton[] factionButtons;
+    private GameObject[] factionButtons;
 
-    private int shipType = 0;
+    private int ship = 0;
     private int faction = 0;
 
     override public void Selected(int type)
@@ -27,11 +27,23 @@ public class ShipSelectOverseer : MenuOverseer
         else if (type == 200)
             StartGame();
 
-        else if (type >= 10)
-            faction = type - 10;
-
         else
-            shipType = type;
+            switch(type)
+            {
+                case 1:
+                    ChangeShip(-1);
+                    break;
+                case 2:
+                    ChangeShip(1);
+                    break;
+
+                case 3:
+                    ChangeFaction(-1);
+                    break;
+                case 4:
+                    ChangeFaction(1);
+                    break;
+            }
         
     }
 
@@ -40,7 +52,7 @@ public class ShipSelectOverseer : MenuOverseer
         AudioManager.AM.Stop("MainMenuTheme");
         space.gameObject.SetActive(true);
         space.SetBackgrounding(false);
-        space.StartGame(shipType, faction);
+        space.StartGame(ship, faction);
         gameObject.SetActive(false);
     }
 
@@ -63,5 +75,20 @@ public class ShipSelectOverseer : MenuOverseer
             for (int j = 0; j < factionButtons.Length; j++)
                 if (factionButtons[j] != requester)
                     factionButtons[j].GetComponent<ImageButton>().Unchoose();
+    }
+
+
+    private void ChangeShip(int modifier)
+    {
+        shipButtons[ship].SetActive(false);
+        ship = (ship + modifier + shipButtons.Length) % shipButtons.Length;
+        shipButtons[ship].SetActive(true);
+    }
+
+    private void ChangeFaction(int modifier)
+    {
+        factionButtons[faction].SetActive(false);
+        faction = (faction + modifier + factionButtons.Length) % factionButtons.Length;
+        factionButtons[faction].SetActive(true);
     }
 }

@@ -5,7 +5,6 @@ using UnityEngine.EventSystems;
 public abstract class Button : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler, IPointerDownHandler, IPointerUpHandler
 {
     bool mouseOver = false;
-    bool isMobile = false;
     float red = 0f;
     float blue = 0f;
 
@@ -15,11 +14,6 @@ public abstract class Button : MonoBehaviour, IPointerExitHandler, IPointerEnter
     // Start is called before the first frame update
     public void Start()
     {
-        if (Application.platform == RuntimePlatform.Android)
-        {
-            isMobile = true;
-        }
-
         if (GetComponent<Text>())
             originalSize = GetComponent<Text>().fontSize;
         else if (GetComponent<Image>())
@@ -52,10 +46,6 @@ public abstract class Button : MonoBehaviour, IPointerExitHandler, IPointerEnter
         return mouseOver;
     }
 
-    public bool GetIsMobile()
-    {
-        return isMobile;
-    }
 
     // Setter/Changer
     public void ChangeTone(float color)
@@ -82,8 +72,8 @@ public abstract class Button : MonoBehaviour, IPointerExitHandler, IPointerEnter
     {
         if (GetComponent<Text>())
             GetComponent<Text>().fontSize = (int)(originalSize * scale);
-        else if (GetComponent<Image>())
-        {
+
+        else if (GetComponent<Image>()) {
             Image image = GetComponent<Image>();
             Vector2 oldSize = image.rectTransform.sizeDelta;
             Vector2 updatedSize = originalSizeV * scale;
@@ -102,13 +92,10 @@ public abstract class Button : MonoBehaviour, IPointerExitHandler, IPointerEnter
             if (gameObject.transform.GetChild(i) != null)
             {
                 if (gameObject.transform.GetChild(i).GetComponent<Text>() != null)
-                {
                     gameObject.transform.GetChild(i).GetComponent<Text>().color = new Color(color, color - red, color - red);
-                }
+
                 else if (gameObject.transform.GetChild(i).GetComponent<Image>() != null)
-                {
                     gameObject.transform.GetChild(i).GetComponent<Image>().color = new Color(color, color - red, color - red);
-                }
             }
         }
     }

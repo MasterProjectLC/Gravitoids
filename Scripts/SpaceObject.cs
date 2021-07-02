@@ -55,6 +55,7 @@ public abstract class SpaceObject : MonoBehaviour
         transform.position += (Vector3)bodyVelocity * Time.deltaTime;
     }
 
+
     public bool CollisionCheck(GameObject otherObject, Vector2 newBodyVelocity) {
 
         // Setup
@@ -89,11 +90,13 @@ public abstract class SpaceObject : MonoBehaviour
         return false;
     }
 
+
     public void Explode(float explosionSize)
     {
         ParticleExplosion(explosionSize);
         DestroyObject();
     }
+
 
     public void ParticleExplosion(float explosionSize)
     {
@@ -101,11 +104,13 @@ public abstract class SpaceObject : MonoBehaviour
         instance.GetComponent<ParticleSystem>().startSize = explosionSize * 0.1f;
     }
 
+
     public void DestroyObject()
     {
         GetSpace().EraseObject(this.gameObject);
         Destroy(gameObject);
     }
+
 
     // SETTER/GETTER ----------------------------------
 
@@ -168,7 +173,6 @@ public abstract class SpaceObject : MonoBehaviour
 
     protected virtual void OnTriggerEnter2D(Collider2D collision)
     {
-        //Debug.Log("Sanity " + collision.gameObject.tag);
         CollisionCheck(collision.gameObject, bodyVelocity);
     }
 }

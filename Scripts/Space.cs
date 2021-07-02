@@ -93,8 +93,7 @@ public class Space : MonoBehaviour
         WaveControl();
 
         // When Player Destroyed...
-        if (!playerShipInstance)
-        {
+        if (!playerShipInstance) {
             AudioManager.AM.StopAll();
             if (deathClock > 1)
                 ResetGame();
@@ -105,13 +104,12 @@ public class Space : MonoBehaviour
         SpaceReveal();
     }
 
+
     public void WaveControl()
     {
         if (gameEnd) { return; }
 
-        if (clock > waveCooldown)
-        {
-
+        if (clock > waveCooldown) {
             int asteroidWaveCount = 2;
             if (objectList.Count < 16)
                 asteroidWaveCount = 5;
@@ -124,8 +122,7 @@ public class Space : MonoBehaviour
             SpawnEnemy(spawnLocations[Random.Range(0, spawnLocations.Length)].position, enemyShipTypes.Pawn);
 
             // Knight Spawn
-            if (wave % 4 == 0 && wave != 0 && playerShipInstance)
-            {
+            if (wave % 4 == 0 && wave != 0 && playerShipInstance) {
                 Vector3 spawnPosition;
                 do {
                     spawnPosition = new Vector3(Random.Range(-43, 43), Random.Range(-20, 20), playerShipInstance.transform.position.z);
@@ -136,8 +133,7 @@ public class Space : MonoBehaviour
             }
 
             // Boss Spawn
-            if (wave == 16)
-            {
+            if (wave == 16) {
                 AudioManager.AM.Stop("GameTheme");
 
                 SpawnEnemy(new Vector2(-1, -70), enemyShipTypes.Boss);
@@ -153,6 +149,7 @@ public class Space : MonoBehaviour
             clock += Time.deltaTime;
         }
     }
+
 
     public void SpawnAsteroids(int scale, int count)
     {
@@ -170,6 +167,7 @@ public class Space : MonoBehaviour
         }
     }
 
+
     public void SpawnAsteroid(int scale, Vector2 spawnLocation, bool gameActive)
     {
         GameObject newObject = Instantiate(asteroidPresets[Random.Range(0, asteroidPresets.Length)], spawnLocation, Quaternion.identity, this.transform);
@@ -186,8 +184,8 @@ public class Space : MonoBehaviour
         newObject.GetComponent<Asteroid>().SetObjectList(objectList);
     }
 
-    public GameObject SpawnEnemy(Vector2 spawnLocation, enemyShipTypes type)
-    {
+
+    public GameObject SpawnEnemy(Vector2 spawnLocation, enemyShipTypes type) {
         GameObject newObject;
         switch (type)
         {
@@ -216,8 +214,8 @@ public class Space : MonoBehaviour
         return newObject;
     }
 
-    public void SpawnPlayerShip(int playerShipType)
-    {
+
+    public void SpawnPlayerShip(int playerShipType) {
         // Spawn space objects
         Vector2 spawnPosition = new Vector2(0f, 0f);
 
@@ -229,8 +227,8 @@ public class Space : MonoBehaviour
         newObject.GetComponent<PlayerShip>().SetObjectList(objectList);
     }
 
-    public void EndExplosion()
-    {
+
+    public void EndExplosion() {
         gameEnd = true;
         AudioManager.AM.Play("BossDeath");
         AudioManager.AM.Stop(bossShipInstance.GetComponent<BossEnemy>().GetBossTheme());
@@ -243,15 +241,15 @@ public class Space : MonoBehaviour
         }
     }
 
-    public void ResetGame()
-    {
+
+    public void ResetGame() {
         AudioManager.AM.StopAll();
         Messenger.MS.resetting = true;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
-    private void SpaceReveal()
-    {
+
+    private void SpaceReveal() {
         if (!gameEnd) { return; }
 
         credits.transform.position += new Vector3(0f, 15f*Time.deltaTime, 0f);
@@ -259,6 +257,7 @@ public class Space : MonoBehaviour
         if (background.color.r < 1f)
             background.color = new Color(background.color.r + Time.deltaTime, background.color.g + Time.deltaTime, background.color.b + Time.deltaTime, background.color.a);
     }
+
 
     public float GetGravitationalConstant()
     {

@@ -10,7 +10,7 @@ public abstract class PlayerShip : Ship
     protected GameObject moveFire;
 
     [SerializeField]
-    protected GameObject[] energyCells;
+    protected SpriteRenderer energyCells;
 
     [SerializeField]
     protected int maxEnergy = 6;
@@ -29,6 +29,7 @@ public abstract class PlayerShip : Ship
     new void Start()
     {
         energyLevel = maxEnergy;
+        energyCells.material.SetInt("_Cells", energyLevel);
         SetGravityVariable(5);
         base.Start();
     }
@@ -84,6 +85,12 @@ public abstract class PlayerShip : Ship
     // Player Movement
     public void PlayerMovement()
     {
+        // Loop around
+        LoopAround();
+
+        if (speed <= 0)
+            return;
+
         float forcesCount = 0;
         float newRotation = 0f;
 
@@ -114,6 +121,7 @@ public abstract class PlayerShip : Ship
 
         if (forcesCount != 0)
         {
+            moveFire.SetActive(true);
             // Sound
             if (!AudioManager.AM.GetIsPlaying("ShipMovement"))
                 AudioManager.AM.Play("ShipMovement");
@@ -159,34 +167,28 @@ public abstract class PlayerShip : Ship
         {
             AudioManager.AM.Stop("ShipMovement");
         }
+    }
 
+    protected void LoopAround()
+    {
         // Loop around
         Vector3 position = transform.position;
         if (position.x > 53)
-        {
             transform.position = new Vector3(-53, position.y, position.z);
-        }
         else if (position.x < -53)
-        {
             transform.position = new Vector3(53, position.y, position.z);
-        }
 
         if (position.y > 30)
-        {
             transform.position = new Vector3(position.x, -30, position.z);
-        }
         else if (position.y < -30)
-        {
             transform.position = new Vector3(position.x, 30, position.z);
-        }
-
     }
+
 
     protected void GoInDirection(KeyCode key, Vector2 direction, float targetAngle, ref float newRotation, ref float forcesCount)
     {
         if (Input.GetKey(key))
         {
-            moveFire.SetActive(true);
             IncreaseBodyVelocity(direction * Time.deltaTime);
             targetDirection += direction;
             newRotation += targetAngle;
@@ -225,16 +227,11 @@ public abstract class PlayerShip : Ship
     {
         int newLevel = energyLevel + change;
 
-        if (newLevel >= 0 && newLevel <= 6)
-            energyLevel = newLevel;
+        if (newLevel < 0 || newLevel > 6)
+            return;
 
-        for (int i = energyCells.Length-1; i >= 0; i--)
-        {
-            if (energyLevel-1 >= i)
-                energyCells[i].SetActive(true);
-            else
-                energyCells[i].SetActive(false);
-        }
+        energyLevel = newLevel;
+        energyCells.material.SetInt("_Cells", energyLevel);
     }
 
     public override void DealDamage(int damage)
