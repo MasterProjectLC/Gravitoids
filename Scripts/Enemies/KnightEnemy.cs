@@ -9,6 +9,9 @@ public class KnightEnemy : EnemyShip
 
     protected void EmergeAnimation()
     {
+        if (transform.localScale.x == targetScale)
+            return;
+
         if (transform.localScale.x < targetScale)
             transform.localScale += new Vector3(5 * Time.deltaTime, 5 * Time.deltaTime, 5 * Time.deltaTime);
         else

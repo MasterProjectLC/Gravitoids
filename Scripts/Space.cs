@@ -145,9 +145,7 @@ public class Space : MonoBehaviour
             clock = 0;
         }
         else
-        {
             clock += Time.deltaTime;
-        }
     }
 
 
@@ -171,17 +169,18 @@ public class Space : MonoBehaviour
     public void SpawnAsteroid(int scale, Vector2 spawnLocation, bool gameActive)
     {
         GameObject newObject = Instantiate(asteroidPresets[Random.Range(0, asteroidPresets.Length)], spawnLocation, Quaternion.identity, this.transform);
-        newObject.GetComponent<Asteroid>().SetSpace(this);
-        newObject.GetComponent<Asteroid>().SetScale(scale);
-        newObject.GetComponent<Asteroid>().SetMass(1);
+        Asteroid newAsteroid = newObject.GetComponent<Asteroid>();
+        newAsteroid.SetSpace(this);
+        newAsteroid.SetScale(scale);
+        newAsteroid.SetMass(1);
 
         if (gameActive)
-            newObject.GetComponent<Asteroid>().SetBodyVelocity(-spawnLocation * Random.Range(0.01f, 0.1f));
+            newAsteroid.SetBodyVelocity(-spawnLocation * Random.Range(0.01f, 0.1f));
         else
-            newObject.GetComponent<Asteroid>().SetBodyVelocity(new Vector2(Random.Range(-0.05f, 0.05f), Random.Range(-0.05f, 0.05f)));
+            newAsteroid.SetBodyVelocity(new Vector2(Random.Range(-0.05f, 0.05f), Random.Range(-0.05f, 0.05f)));
 
         objectList.Add(newObject);
-        newObject.GetComponent<Asteroid>().SetObjectList(objectList);
+        newAsteroid.SetObjectList(objectList);
     }
 
 

@@ -57,7 +57,8 @@ public class ScoutShip : PlayerShip
     {
         if (energyLevel <= 0)
             return;
-        
+
+        AudioManager.AM.Play("Laser");
         laser.SetActive(true);
         laser.GetComponent<Laser>().SetAlpha(1);
         UseEnergyCell(-1);
@@ -67,6 +68,8 @@ public class ScoutShip : PlayerShip
     {
         if (energyLevel <= 0)
             return;
+
+        AudioManager.AM.Play("Warp2");
         SetBodyVelocity(targetDirection.normalized*50f);
         dash = 0.25f;
         GetComponent<Collider2D>().enabled = false;
@@ -87,11 +90,11 @@ public class ScoutShip : PlayerShip
 
         if (!hit) { return; }
 
-        Debug.Log("HIT");
         Collider2D other = hit.collider;
 
         if (other.GetComponent<BossEnemy>()) { return; }
 
+        AudioManager.AM.Play("Ping");
         Vector3 myPosition = transform.position;
         Vector3 otherPosition = other.transform.position;
 

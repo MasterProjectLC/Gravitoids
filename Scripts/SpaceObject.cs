@@ -80,7 +80,7 @@ public abstract class SpaceObject : MonoBehaviour
             otherSpaceObject.DealDamage((int)GetScale());
 
             // Push + Damage ourselves
-            if (otherDamage > 0 && !knockbackImmune && !otherSpaceObject.knockbackImpaired)
+            if (otherDamage > 0 && !otherSpaceObject.knockbackImpaired)
                 IncreaseBodyVelocity(otherVelocity * otherDamage / 5);
 
             DealDamage((int)otherDamage);
@@ -116,7 +116,8 @@ public abstract class SpaceObject : MonoBehaviour
 
     public void IncreaseBodyVelocity(Vector2 increase)
     {
-        bodyVelocity += increase;
+        if (!knockbackImmune)
+            bodyVelocity += increase;
     }
 
     public Vector2 GetBodyVelocity()
@@ -126,7 +127,13 @@ public abstract class SpaceObject : MonoBehaviour
 
     public void SetBodyVelocity(Vector2 newBodyVelocity)
     {
-        bodyVelocity = newBodyVelocity;
+        SetBodyVelocity(newBodyVelocity, false);
+    }
+
+    public void SetBodyVelocity(Vector2 newBodyVelocity, bool overrideImmunity)
+    {
+        if (!knockbackImmune || overrideImmunity)
+            bodyVelocity = newBodyVelocity;
     }
 
     public void SetSpace(Space newSpace)

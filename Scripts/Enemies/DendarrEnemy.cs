@@ -102,7 +102,7 @@ public class DendarrEnemy : BossEnemy
         // Actual movement
         rotation += deltaRotation * Time.deltaTime;
         Vector2 newDirection = new Vector2(Mathf.Cos(rotation * Mathf.Deg2Rad), Mathf.Sin(rotation * Mathf.Deg2Rad));
-        SetBodyVelocity(newDirection * speed);
+        SetBodyVelocity(newDirection * speed, true);
 
         EnemyRotation(deltaRotation);
     }

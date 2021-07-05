@@ -1191,7 +1191,7 @@ MonoBehaviour:
 
     Bahnschrift
 
-    
+
 
     MUSIC
 
@@ -1207,7 +1207,7 @@ MonoBehaviour:
     Monochrome
     Dream - symfonikev
 
-    
+
 
     SOUND EFFECTS
 
@@ -1219,7 +1219,7 @@ MonoBehaviour:
 
     MasterProject
 
-    
+
 
     SPECIAL
     THANKS
@@ -3416,7 +3416,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "VOLUME - \nSOM"
+  m_Text: "VOLUME - \nSOUND"
 --- !u!222 &902572793818248305
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3775,7 +3775,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "VOLUME - \nM\xDASICA"
+  m_Text: "VOLUME - \nMUSIC"
 --- !u!224 &2997611456364807202
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4053,7 +4053,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: VOLUME GERAL
+  m_Text: MASTER VOLUME
 --- !u!224 &3902931004062075994
 RectTransform:
   m_ObjectHideFlags: 0

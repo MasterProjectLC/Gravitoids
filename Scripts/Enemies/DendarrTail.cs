@@ -15,7 +15,7 @@ public class DendarrTail : DendarrEnemy
     {
         tail = true;
         base.Start();
-        SetBodyVelocity(Vector2.zero);
+        SetBodyVelocity(Vector2.zero, true);
     }
 
     new private void Update()

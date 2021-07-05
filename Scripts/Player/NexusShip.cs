@@ -13,6 +13,9 @@ public class NexusShip : PlayerShip
     private float shieldCooldown = 5f;
     protected float shield = 0f;
 
+    [SerializeField]
+    private float repellerRadius = 10f;
+
 
     new void Start()
     {
@@ -31,7 +34,10 @@ public class NexusShip : PlayerShip
         {
             shield -= Time.deltaTime;
             if (shield <= 0f)
+            {
                 directedShield.gameObject.SetActive(true);
+                AudioManager.AM.Play("Shield");
+            }
         }
 
         ShieldRotation();
@@ -39,18 +45,66 @@ public class NexusShip : PlayerShip
 
     public override void SpacePower()
     {
-        
-        Debug.Log("test");
+        Repeller();
     }
 
     public override void ShiftPower()
     {
-        
+        Vortex();
     }
 
     public override void ControlPower()
     {
         Swapper();
+    }
+
+
+
+    void Vortex()
+    {
+        if (energyLevel <= 0)
+            return;
+
+        AudioManager.AM.Play("DeepWarp");
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector3 mousePos3D = new Vector3(mousePos.x, mousePos.y);
+
+        for (int i = 0; i < objectList.Count; i++)
+        {
+            Vector3 targetPosition = objectList[i].transform.position;
+            float distance = (mousePos3D - targetPosition).magnitude;
+
+            if (distance < repellerRadius)
+            {
+                Vector2 direction = (mousePos3D - targetPosition).normalized;
+                objectList[i].GetComponent<SpaceObject>().IncreaseBodyVelocity(direction * (repellerRadius - distance));
+            }
+        }
+
+        UseEnergyCell(-1);
+    } 
+
+
+    void Repeller()
+    {
+        if (energyLevel <= 0)
+            return;
+
+        AudioManager.AM.Play("Repeller");
+        for (int i = 0; i < objectList.Count; i++)
+        {
+            Debug.Log(objectList[i].name);
+            Vector3 targetPosition = objectList[i].transform.position;
+            float distance = (transform.position - targetPosition).magnitude;
+
+            if (distance < repellerRadius)
+            {
+                Vector2 direction = (targetPosition - transform.position).normalized;
+                objectList[i].GetComponent<SpaceObject>().IncreaseBodyVelocity(direction*(repellerRadius-distance));
+            }
+        }
+
+        UseEnergyCell(-1);
     }
 
 
@@ -71,6 +125,7 @@ public class NexusShip : PlayerShip
 
         if (other.GetComponent<BossEnemy>() || !other.GetComponent<SpaceObject>()) { return; }
 
+        AudioManager.AM.Play("Ping");
         Vector3 myVelocity = GetBodyVelocity();
         Vector3 otherVelocity = other.GetComponent<SpaceObject>().GetBodyVelocity();
 
