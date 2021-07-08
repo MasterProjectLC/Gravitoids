@@ -10,6 +10,12 @@ public class NexusShip : PlayerShip
     private UnityAction shieldAction;
 
     [SerializeField]
+    protected GameObject repellerAnim;
+
+    [SerializeField]
+    protected GameObject vortexAnim;
+
+    [SerializeField]
     private float shieldCooldown = 5f;
     protected float shield = 0f;
 
@@ -69,6 +75,7 @@ public class NexusShip : PlayerShip
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector3 mousePos3D = new Vector3(mousePos.x, mousePos.y);
 
+        Instantiate(vortexAnim, mousePos3D, transform.rotation);
         for (int i = 0; i < objectList.Count; i++)
         {
             Vector3 targetPosition = objectList[i].transform.position;
@@ -91,9 +98,9 @@ public class NexusShip : PlayerShip
             return;
 
         AudioManager.AM.Play("Repeller");
+        Instantiate(repellerAnim, transform.position, transform.rotation);
         for (int i = 0; i < objectList.Count; i++)
         {
-            Debug.Log(objectList[i].name);
             Vector3 targetPosition = objectList[i].transform.position;
             float distance = (transform.position - targetPosition).magnitude;
 

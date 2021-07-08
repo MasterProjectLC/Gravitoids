@@ -50,7 +50,6 @@ public class AnchorShip : PlayerShip
     public override void SpacePower()
     {
         Missile();
-        Debug.Log("test");
     }
 
     public override void ShiftPower()

@@ -4,16 +4,19 @@ using UnityEngine;
 
 public class SpeederEnemy : EnemyShip
 {
-
+    new protected void Start()
+    {
+        SetGravityVariable(16);
+        base.Start();
+    }
 
     // Update is called once per frame
     new private void Update()
     {
-        SetGravityVariable(16);
-
         if (!GetPlayerShip()) { return; }
 
-        IncreaseBodyVelocity((GetPlayerShip().transform.position - transform.position).normalized * Time.deltaTime * 4f);
+        if (GetPlayerShip())
+            IncreaseBodyVelocity((GetPlayerShip().transform.position - transform.position).normalized * Time.deltaTime * 4f);
         TurretRotation();
 
         Gravitos();

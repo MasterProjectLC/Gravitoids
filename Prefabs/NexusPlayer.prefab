@@ -192,6 +192,10 @@ MonoBehaviour:
   maxEnergy: 6
   chargeCooldown: 3
   directedShield: {fileID: 9066442247524879909}
+  repellerAnim: {fileID: 6777660796024224555, guid: c5e9dee2a01f95045afa0c357cbc29f5,
+    type: 3}
+  vortexAnim: {fileID: 6777660796024224555, guid: 7ba6fb9664da0fa4c90a2e57c53f6b6c,
+    type: 3}
   shieldCooldown: 5
   repellerRadius: 10
 --- !u!58 &3263311777846998297

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OphzekEnemy : EnemyShip
+public class OphzekEnemy : PawnEnemy
 {
     float clock = 0;
     float animPeriod = 1.75f;
@@ -15,8 +15,10 @@ public class OphzekEnemy : EnemyShip
 
     string[] soundList = { "OphzekReproduce1", "OphzekReproduce2" };
 
+
     new private void Start()
     {
+        SetGravityVariable(10);
         spriteRenderer = GetComponent<SpriteRenderer>();
         base.Start();
     }
@@ -24,8 +26,6 @@ public class OphzekEnemy : EnemyShip
     // Update is called once per frame
     new private void Update()
     {
-        SetGravityVariable(10);
-
         if (!GetPlayerShip()) { return; }
 
         //IncreaseBodyVelocity((GetPlayerShip().transform.position - transform.position).normalized * Time.deltaTime * 4f);
