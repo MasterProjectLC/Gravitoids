@@ -249,7 +249,7 @@ public abstract class PlayerShip : Ship
     public void AdjustColor()
     {
         Color myColor = GetComponent<SpriteRenderer>().color;
-        GetComponent<SpriteRenderer>().color = new Color(myColor.r, myColor.g, myColor.b, (health / maxHealth));
+        GetComponent<SpriteRenderer>().color = new Color(myColor.r, myColor.g, myColor.b, ((float)health / (float)maxHealth));
     }
 
     new private void OnCollisionEnter2D(Collision2D collision)

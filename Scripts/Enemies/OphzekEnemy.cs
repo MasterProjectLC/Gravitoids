@@ -28,7 +28,6 @@ public class OphzekEnemy : PawnEnemy
     {
         if (!GetPlayerShip()) { return; }
 
-        //IncreaseBodyVelocity((GetPlayerShip().transform.position - transform.position).normalized * Time.deltaTime * 4f);
         Reproduce();
         TurretRotation();
 
@@ -66,7 +65,7 @@ public class OphzekEnemy : PawnEnemy
 
     public void TurretRotation()
     {
-        transform.LookAt(new Vector3(GetPlayerShip().transform.position.x, GetPlayerShip().transform.position.y, -100f), Vector3.forward);
+        transform.LookAt(new Vector3(GetPlayerShip().transform.position.x, GetPlayerShip().transform.position.y, -1000f), Vector3.forward);
     }
 
     public override void DealDamage(int damage)

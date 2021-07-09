@@ -29,7 +29,7 @@ public class DendarrTail : DendarrEnemy
             else if (alpha >= 1f && fading == 2) { fading = -2; }
         }
 
-        LoopAround();
+        transform.position = loopAround.Function(transform.position);
     }
 
     private void SetColor(float alpha)

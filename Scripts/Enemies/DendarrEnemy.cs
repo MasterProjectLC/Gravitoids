@@ -5,7 +5,7 @@ using UnityEngine;
 public class DendarrEnemy : BossEnemy
 {
     bool enraged = false;
-    float distanceToReappear = 75f;
+    protected LoopAround loopAround;
 
     float clock = 0f;
     float cooldown = 4f;
@@ -29,8 +29,8 @@ public class DendarrEnemy : BossEnemy
 
     new protected void Start()
     {
-
         // Movement Setup
+        loopAround = new LoopAround(75f);
         SetBodyVelocity(new Vector2(0f, -1f) * speed);
         rotation = 270f;
 
@@ -83,7 +83,7 @@ public class DendarrEnemy : BossEnemy
         else
             tailClock += Time.deltaTime;
 
-        LoopAround();
+        transform.position = loopAround.Function(transform.position);
 
         Gravitos();
     }
@@ -121,22 +121,6 @@ public class DendarrEnemy : BossEnemy
         child.GetComponent<DendarrTail>().TailMovement();
     }
 
-    protected void LoopAround()
-    {
-        Vector3 position = transform.position;
-        if (position.x > distanceToReappear)
-            transform.position = new Vector3(-(distanceToReappear -5f), position.y, position.z);
-
-        else if (position.x < -distanceToReappear)
-            transform.position = new Vector3(distanceToReappear - 5f, position.y, position.z);
-
-        if (position.y > distanceToReappear && 300f > position.y)
-            transform.position = new Vector3(position.x, -(distanceToReappear - 5f), position.z);
-
-        else if (position.y < -distanceToReappear)
-            transform.position = new Vector3(position.x, distanceToReappear - 5f, position.z);
-    }
-
 
     public override void DealDamage(int damage)
     {
@@ -152,7 +136,7 @@ public class DendarrEnemy : BossEnemy
             {
                 enraged = true;
                 speed = 28;
-                distanceToReappear = 58f;
+                loopAround.SetDistance(58f);
                 AudioManager.AM.Play("DendarrRoar");
             }
         }

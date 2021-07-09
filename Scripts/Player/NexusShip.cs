@@ -22,6 +22,9 @@ public class NexusShip : PlayerShip
     [SerializeField]
     private float repellerRadius = 10f;
 
+    [SerializeField]
+    private float vortexRadius = 10f;
+
 
     new void Start()
     {
@@ -81,10 +84,10 @@ public class NexusShip : PlayerShip
             Vector3 targetPosition = objectList[i].transform.position;
             float distance = (mousePos3D - targetPosition).magnitude;
 
-            if (distance < repellerRadius)
+            if (distance < vortexRadius)
             {
                 Vector2 direction = (mousePos3D - targetPosition).normalized;
-                objectList[i].GetComponent<SpaceObject>().IncreaseBodyVelocity(direction * (repellerRadius - distance));
+                objectList[i].GetComponent<SpaceObject>().IncreaseBodyVelocity(direction * (vortexRadius - distance));
             }
         }
 

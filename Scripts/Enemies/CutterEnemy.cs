@@ -7,16 +7,18 @@ public class CutterEnemy : PawnEnemy
     [SerializeField]
     GameObject laser;
 
-    LineRenderer line;
-    EdgeCollider2D edgeCollider;
-
     static LinkedList<CutterEnemy> brothers = new LinkedList<CutterEnemy>();
+    public static bool boss = false;
     LinkedListNode<CutterEnemy> currentNode;
 
     static float clock = 0;
     float powerPeriod = 3f;
     float powerAnim = 1f;
-    Color purple;
+
+    [SerializeField]
+    GameObject repellerAnim;
+    [SerializeField]
+    float repellerRadius = 10f;
 
     new protected void Start()
     {
@@ -24,13 +26,9 @@ public class CutterEnemy : PawnEnemy
         currentNode = brothers.Last;
 
         SetGravityVariable(10);
-        line = laser.GetComponent<LineRenderer>();
-        edgeCollider = laser.GetComponent<EdgeCollider2D>();
+        SetBodyVelocity(-transform.position.normalized);
+        IncreaseBodyVelocity(new Vector2(Random.Range(-0.5f, 0.5f), Random.Range(-0.5f, 0.5f)));
 
-        purple = new Color();
-        ColorUtility.TryParseHtmlString("3C0076", out purple);
-        line.startColor = purple;
-        line.endColor = purple;
         base.Start();
     }
 
@@ -50,16 +48,6 @@ public class CutterEnemy : PawnEnemy
 
     public void Clock()
     {
-        if (clock < powerAnim)
-        {
-            line.startColor = new Color(purple.r, purple.g, purple.b, powerAnim - clock);
-            line.endColor = new Color(purple.r, purple.g, purple.b, powerAnim - clock);
-        } else if (line.enabled)
-        {
-            line.enabled = false;
-            //edgeCollider.enabled = false;
-        }
-
         if (currentNode != brothers.First)
             return;
 
@@ -73,36 +61,56 @@ public class CutterEnemy : PawnEnemy
             clock += Time.deltaTime;
     }
 
+
     public void Laser()
     {
-        if (currentNode.Next == null)
+        Vector3 position = transform.position;
+        if (currentNode.Next == null || position.x > 53 || position.x < -53 || position.y > 30 || position.y < -30)
             return;
         Vector3 nextPosition = currentNode.Next.Value.transform.position;
+        if (nextPosition.x > 53 || nextPosition.x < -53 || nextPosition.y > 30 || nextPosition.y < -30)
+            return;
 
-        line.enabled = true;
-        line.SetPosition(0, transform.position);
-        line.SetPosition(1, nextPosition);
+        CutterLaser newInstance = Instantiate(laser, transform.position, Quaternion.identity).GetComponent<CutterLaser>();
+        newInstance.SetSpace(GetSpace());
+        newInstance.Setup(transform.position, nextPosition);
 
-        edgeCollider.enabled = true;
-        Vector2[] edges = new Vector2[2];
-        edges[0] = Vector2.zero;
-        edges[1] = nextPosition - transform.position;
-        edgeCollider.points = edges;
-        Debug.Log(edgeCollider.points[1]);
-        Debug.Log(edgeCollider.points[1]);
+
+        if (boss)
+        {
+            Debug.Log("Repelled");
+            Repeller();
+        }
+        
+            
     }
+
+    public void Repeller()
+    {
+        Instantiate(repellerAnim, transform.position, transform.rotation);
+        for (int i = 0; i < objectList.Count; i++)
+        {
+            Vector3 targetPosition = objectList[i].transform.position;
+            float distance = (transform.position - targetPosition).magnitude;
+
+            if (distance < repellerRadius)
+            {
+                Vector2 direction = (targetPosition - transform.position).normalized;
+                objectList[i].GetComponent<SpaceObject>().IncreaseBodyVelocity(direction * (repellerRadius - distance));
+            }
+        }
+    }
+
 
     new private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "EnemyAttack") { return; }
-
         CollisionCheck(collision.gameObject, GetBodyVelocity());
     }
 
     new private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag == "EnemyAttack") { return; }
-
         CollisionCheck(collision.collider.gameObject, GetBodyVelocity());
     }
 }

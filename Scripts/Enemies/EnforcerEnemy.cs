@@ -43,6 +43,8 @@ public class EnforcerEnemy : KnightEnemy
     {
         if (clock > powerPeriod)
         {
+            if (!GetPlayerShip())
+                return;
             Vector3 direction = (GetPlayerShip().transform.position - tractor.transform.position).normalized;
 
             RaycastHit2D hit = Physics2D.Raycast(tractor.transform.position, direction);

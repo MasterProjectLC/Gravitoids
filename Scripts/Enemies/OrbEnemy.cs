@@ -26,7 +26,6 @@ public class OrbEnemy : BossEnemy
     new private void Start()
     {
         AudioManager.AM.Play(bossThemeName);
-
         shield.SetSpace(GetSpace());
         SetBodyVelocity(new Vector2(1f, 0f));
 

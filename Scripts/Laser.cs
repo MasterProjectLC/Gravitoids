@@ -38,16 +38,12 @@ public class Laser : SpaceObject
 
     new private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log(collision.gameObject.name);
-
         if (collision.collider.gameObject.GetComponent<PlayerShip>() && tag == "PlayerAttack") { return; }
         CollisionCheck(collision.collider.gameObject, GetBodyVelocity());
     }
 
     new private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log(collision.gameObject.name);
-
         if (collision.gameObject.GetComponent<PlayerShip>() && tag == "PlayerAttack") { return; }
         CollisionCheck(collision.gameObject, GetBodyVelocity());
     }

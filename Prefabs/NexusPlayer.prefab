@@ -197,7 +197,7 @@ MonoBehaviour:
   vortexAnim: {fileID: 6777660796024224555, guid: 7ba6fb9664da0fa4c90a2e57c53f6b6c,
     type: 3}
   shieldCooldown: 5
-  repellerRadius: 10
+  repellerRadius: 20
 --- !u!58 &3263311777846998297
 CircleCollider2D:
   m_ObjectHideFlags: 0

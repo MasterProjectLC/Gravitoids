@@ -1293,11 +1293,11 @@ MonoBehaviour:
   knightShips:
   - {fileID: 477104535180540139, guid: 6190db432e5d8b247ad0916189cd975f, type: 3}
   - {fileID: 477104535180540139, guid: 37690c6133024b9428dd283acd980557, type: 3}
-  - {fileID: 477104535180540139, guid: 37690c6133024b9428dd283acd980557, type: 3}
+  - {fileID: 7725837914096724968, guid: a9902ca06cce220438869950de794d2e, type: 3}
   bossShips:
   - {fileID: 6632914876877121658, guid: 051b59213bcf26644b8dbd413012aa41, type: 3}
   - {fileID: 6632914876877121658, guid: ecd79dee7487eab4697a4d52ced7cfbe, type: 3}
-  - {fileID: 6632914876877121658, guid: ecd79dee7487eab4697a4d52ced7cfbe, type: 3}
+  - {fileID: 7725837914096724968, guid: 88bdba712ebd899468575fb50b064941, type: 3}
   faction: 1
   spawnLocations:
   - {fileID: 499705593}
@@ -2342,6 +2342,13 @@ MonoBehaviour:
     pitch: 1
     loop: 0
     isMusic: 0
+    source: {fileID: 0}
+  - name: LordshipTheme
+    clip: {fileID: 8300000, guid: c32db15c848aa494e8d2e2c0d9d570c8, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 1
+    isMusic: 1
     source: {fileID: 0}
   mainMenu: 1
 --- !u!4 &1161231894
