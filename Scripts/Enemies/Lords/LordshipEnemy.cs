@@ -11,8 +11,18 @@ public class LordshipEnemy : BossEnemy
     const float powerAnim = 1f;
     const float powerForce = 10f;
 
+    float speedLimit = 15f;
+    float acceleration = 1f;
+
+    bool enraged = false;
+
     [SerializeField]
     GameObject spatialAnchor;
+
+    [SerializeField]
+    GameObject repellerAnim;
+
+    Repeller repeller;
 
     [SerializeField]
     Transform core;
@@ -20,7 +30,9 @@ public class LordshipEnemy : BossEnemy
 
     new private void Start()
     {
+        repeller = new Repeller(repellerAnim, 30f);
         AudioManager.AM.Play(bossThemeName);
+        SetGravityVariable(3);
 
         // Movement Setup
         loopAround = new LoopAround(75f);
@@ -56,13 +68,47 @@ public class LordshipEnemy : BossEnemy
         Vector2 directionToPlayer = (GetPlayerShip().transform.position - transform.position);
         float velocityDiff = (GetBodyVelocity().normalized - directionToPlayer.normalized).magnitude;
 
-        if (GetBodyVelocity().magnitude > 5f && velocityDiff > 1f)
+        if (GetBodyVelocity().magnitude > speedLimit && velocityDiff > 1f)
         {
             SetBodyVelocity(Vector2.zero);
             Instantiate(spatialAnchor, transform.position, transform.rotation);
         }
 
-        IncreaseBodyVelocity(directionToPlayer * Time.deltaTime * Mathf.Max(0f, velocityDiff/4f));
+        IncreaseBodyVelocity(directionToPlayer * Time.deltaTime * Mathf.Max(0f, acceleration*velocityDiff / 4f));
+    }
+
+
+    public override void DealDamage(int damage)
+    {
+        Debug.Log("Health " + health + ", Damage " + damage);
+
+        health -= damage;
+        Color myColor = GetComponent<SpriteRenderer>().color;
+        GetComponent<SpriteRenderer>().color = new Color(myColor.r, myColor.g, myColor.b, myColor.a - (damage * (1f / maxHealth)));
+        ParticleExplosion(1);
+
+        if (health < 40 && !enraged)
+        {
+            enraged = true;
+            speedLimit = 5f;
+            acceleration = 2f;
+            AudioManager.AM.Play("LordshipActivated");
+            EnragedAnimation();
+        }
+
+        if (health <= 0)
+        {
+            GetSpace().EndExplosion();
+            Explode(10);
+        }
+    }
+
+    IEnumerator EnragedAnimation()
+    {
+        yield return new WaitForSeconds(1);
+
+        core.gameObject.SetActive(true);
+        repeller.Function(ref objectList, transform.position);
     }
 
     public void TurretRotation()

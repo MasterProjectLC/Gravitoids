@@ -20,8 +20,11 @@ public class CutterEnemy : PawnEnemy
     [SerializeField]
     float repellerRadius = 10f;
 
+    Repeller repeller;
+
     new protected void Start()
     {
+        repeller = new Repeller(repellerAnim, repellerRadius);
         brothers.AddLast(this);
         currentNode = brothers.Last;
 
@@ -67,9 +70,17 @@ public class CutterEnemy : PawnEnemy
         Vector3 position = transform.position;
         if (currentNode.Next == null || position.x > 53 || position.x < -53 || position.y > 30 || position.y < -30)
             return;
+
         Vector3 nextPosition = currentNode.Next.Value.transform.position;
-        if (nextPosition.x > 53 || nextPosition.x < -53 || nextPosition.y > 30 || nextPosition.y < -30)
-            return;
+        LinkedListNode<CutterEnemy> checkedNode = currentNode;
+        while (nextPosition.x > 53 || nextPosition.x < -53 || nextPosition.y > 30 || nextPosition.y < -30)
+        {
+            if (checkedNode.Next == null)
+                return;
+
+            nextPosition = checkedNode.Next.Value.transform.position;
+            checkedNode = checkedNode.Next;
+        }
 
         CutterLaser newInstance = Instantiate(laser, transform.position, Quaternion.identity).GetComponent<CutterLaser>();
         newInstance.SetSpace(GetSpace());
@@ -79,28 +90,11 @@ public class CutterEnemy : PawnEnemy
         if (boss)
         {
             Debug.Log("Repelled");
-            Repeller();
+            repeller.Function(ref objectList, transform.position);
         }
         
             
     }
-
-    public void Repeller()
-    {
-        Instantiate(repellerAnim, transform.position, transform.rotation);
-        for (int i = 0; i < objectList.Count; i++)
-        {
-            Vector3 targetPosition = objectList[i].transform.position;
-            float distance = (transform.position - targetPosition).magnitude;
-
-            if (distance < repellerRadius)
-            {
-                Vector2 direction = (targetPosition - transform.position).normalized;
-                objectList[i].GetComponent<SpaceObject>().IncreaseBodyVelocity(direction * (repellerRadius - distance));
-            }
-        }
-    }
-
 
     new private void OnTriggerEnter2D(Collider2D collision)
     {

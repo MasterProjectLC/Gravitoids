@@ -5,23 +5,17 @@ using UnityEngine;
 public class CutterLaser : SpaceObject
 {
     float clock = 0f;
-    float powerPeriod = 3f;
-    float powerAnim = 0.75f;
+    float powerAnim = 0.5f;
 
     LineRenderer line;
     EdgeCollider2D edgeCollider;
-    Color purple;
 
     public void Setup(Vector2 myPosition, Vector2 nextPosition)
     {
         knockbackImpaired = true;
         knockbackImmune = true;
 
-        purple = new Color();
-        ColorUtility.TryParseHtmlString("3C0076", out purple);
         line = GetComponent<LineRenderer>();
-        line.startColor = purple;
-        line.endColor = purple;
         line.SetPosition(0, myPosition);
         line.SetPosition(1, nextPosition);
 
@@ -38,8 +32,8 @@ public class CutterLaser : SpaceObject
     {
         if (clock < powerAnim)
         {
-            line.startColor = new Color(purple.r, purple.g, purple.b, powerAnim - clock);
-            line.endColor = new Color(purple.r, purple.g, purple.b, powerAnim - clock);
+            line.startColor = new Color(0.7332588f, 0.4801976f, 0.9339623f, powerAnim - clock);
+            line.endColor = new Color(0.7332588f, 0.4801976f, 0.9339623f, powerAnim - clock);
         }
         else
             DestroyObject();

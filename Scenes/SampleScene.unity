@@ -1153,12 +1153,12 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: 'DESIGN
 
-    MasterProject
+    MisterProject
 
 
     PROGRAMMING
 
-    MasterProject
+    MisterProject
 
     Brackeys
     (Audio Manager)
@@ -1217,12 +1217,13 @@ MonoBehaviour:
 
     fesliyanstudios.com
 
-    MasterProject
+    MisterProject
+
+    Mike
+    Koenig
 
 
-
-    SPECIAL
-    THANKS
+    SPECIAL THANKS
 
     brzkr
 
@@ -2349,6 +2350,13 @@ MonoBehaviour:
     pitch: 1
     loop: 1
     isMusic: 1
+    source: {fileID: 0}
+  - name: LordshipActivated
+    clip: {fileID: 8300000, guid: 383b0c74feb410a4b9918eb4a472e483, type: 3}
+    volume: 1
+    pitch: 0.75
+    loop: 0
+    isMusic: 0
     source: {fileID: 0}
   mainMenu: 1
 --- !u!4 &1161231894

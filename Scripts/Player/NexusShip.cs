@@ -25,9 +25,12 @@ public class NexusShip : PlayerShip
     [SerializeField]
     private float vortexRadius = 10f;
 
+    Repeller repeller;
+
 
     new void Start()
     {
+        repeller = new Repeller(repellerAnim, 15f);
         shieldAction += OnShieldDamage;
         directedShield.GetOnDamaged().AddListener(shieldAction);
         directedShield.SetSpace(GetSpace());
@@ -54,7 +57,10 @@ public class NexusShip : PlayerShip
 
     public override void SpacePower()
     {
-        Repeller();
+        if (energyLevel <= 0)
+            return;
+        repeller.Function(ref objectList, transform.position);
+        UseEnergyCell(-1);
     }
 
     public override void ShiftPower()
@@ -95,29 +101,6 @@ public class NexusShip : PlayerShip
     } 
 
 
-    void Repeller()
-    {
-        if (energyLevel <= 0)
-            return;
-
-        AudioManager.AM.Play("Repeller");
-        Instantiate(repellerAnim, transform.position, transform.rotation);
-        for (int i = 0; i < objectList.Count; i++)
-        {
-            Vector3 targetPosition = objectList[i].transform.position;
-            float distance = (transform.position - targetPosition).magnitude;
-
-            if (distance < repellerRadius)
-            {
-                Vector2 direction = (targetPosition - transform.position).normalized;
-                objectList[i].GetComponent<SpaceObject>().IncreaseBodyVelocity(direction*(repellerRadius-distance));
-            }
-        }
-
-        UseEnergyCell(-1);
-    }
-
-
     void Swapper()
     {
         if (energyLevel <= 0)
@@ -133,7 +116,7 @@ public class NexusShip : PlayerShip
         Debug.Log("HIT");
         Collider2D other = hit.collider;
 
-        if (other.GetComponent<BossEnemy>() || !other.GetComponent<SpaceObject>()) { return; }
+        if (!other.GetComponent<SpaceObject>()) { return; }
 
         AudioManager.AM.Play("Ping");
         Vector3 myVelocity = GetBodyVelocity();

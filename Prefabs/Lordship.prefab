@@ -96,7 +96,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7773876238036949544
 Transform:
   m_ObjectHideFlags: 0
@@ -412,11 +412,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   explosion: {fileID: 4196569047492873449, guid: d6cb6d5148e5f9641b9fe5b43fa4607b,
     type: 3}
-  mass: 2
-  health: 50
+  mass: 4
+  health: 100
   inputScale: 4
   bossThemeName: LordshipTheme
   spatialAnchor: {fileID: 6777660796024224555, guid: 33665ee0c5af4194385b91de81673654,
+    type: 3}
+  repellerAnim: {fileID: 6777660796024224555, guid: c5e9dee2a01f95045afa0c357cbc29f5,
     type: 3}
   core: {fileID: 7773876238036949544}
 --- !u!60 &2355339191076361686

@@ -268,7 +268,7 @@ MonoBehaviour:
   explosion: {fileID: 4196569047492873449, guid: d6cb6d5148e5f9641b9fe5b43fa4607b,
     type: 3}
   mass: 1
-  health: 6
+  health: 3
   inputScale: 1
   laser: {fileID: 7725837914096724968, guid: bad63db01f5ccc9478afc85ee045627b, type: 3}
   repellerAnim: {fileID: 6777660796024224555, guid: c5e9dee2a01f95045afa0c357cbc29f5,
