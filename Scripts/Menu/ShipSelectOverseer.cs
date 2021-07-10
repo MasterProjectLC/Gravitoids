@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ShipSelectOverseer : MenuOverseer
 {
@@ -14,7 +15,19 @@ public class ShipSelectOverseer : MenuOverseer
     private GameObject[] shipButtons;
 
     [SerializeField]
+    private Text shipTitle;
+
+    [SerializeField]
+    private GameObject[] shipDescriptions;
+
+    [SerializeField]
     private GameObject[] factionButtons;
+
+    [SerializeField]
+    private Text factionTitle;
+
+    [SerializeField]
+    private GameObject[] factionDescriptions;
 
     private int ship = 0;
     private int faction = 0;
@@ -56,39 +69,28 @@ public class ShipSelectOverseer : MenuOverseer
         gameObject.SetActive(false);
     }
 
-    public void UnchooseOtherButtons(ImageButton requester)
-    {
-        bool isShip = false;
-        for (int i = 0; i < shipButtons.Length; i++)
-        {
-            if (shipButtons[i] == requester)
-                isShip = true;
-        }
-
-        if (isShip)
-        {
-            for (int i = 0; i < shipButtons.Length; i++)
-                if (shipButtons[i] != requester)
-                    shipButtons[i].GetComponent<ImageButton>().Unchoose();
-        }
-        else
-            for (int j = 0; j < factionButtons.Length; j++)
-                if (factionButtons[j] != requester)
-                    factionButtons[j].GetComponent<ImageButton>().Unchoose();
-    }
-
 
     private void ChangeShip(int modifier)
     {
         shipButtons[ship].SetActive(false);
+        shipDescriptions[ship].SetActive(false);
+
         ship = (ship + modifier + shipButtons.Length) % shipButtons.Length;
+        shipTitle.text = shipButtons[ship].name;
+
         shipButtons[ship].SetActive(true);
+        shipDescriptions[ship].SetActive(true);
     }
 
     private void ChangeFaction(int modifier)
     {
         factionButtons[faction].SetActive(false);
+        factionDescriptions[faction].SetActive(false);
+
         faction = (faction + modifier + factionButtons.Length) % factionButtons.Length;
+        factionTitle.text = factionButtons[faction].name;
+
+        factionDescriptions[faction].SetActive(true);
         factionButtons[faction].SetActive(true);
     }
 }

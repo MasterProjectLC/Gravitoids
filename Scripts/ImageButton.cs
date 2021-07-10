@@ -8,7 +8,7 @@ public class ImageButton : MenuButton
 
     public override void PointerDown()
     {
-        transform.parent.GetComponent<ShipSelectOverseer>().UnchooseOtherButtons(this);
+        //transform.parent.GetComponent<ShipSelectOverseer>().UnchooseOtherButtons(this);
         chosen = true;
         base.PointerDown();
     }
